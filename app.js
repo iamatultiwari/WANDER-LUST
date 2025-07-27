@@ -26,6 +26,7 @@ app.set("views",path.join(__dirname,"views")) // Set the path for views folder
 app.use(express.urlencoded({ extended: true })); // Middleware to parse form data
 app.use(methodOverride("_method")) // Use _method to support PUT/DELETE
 app.engine('ejs', ejsMate); // Use ejs-mate for layouts and partials
+app.use(express.static(path.join(__dirname, "/public")))
 
 // Root route
 app.get("/",(req,res) =>{
@@ -36,31 +37,23 @@ app.get("/",(req,res) =>{
 //index root
 app.get("/listings", async (req,res) =>{
    const allListings =  await Listing.find({}) // Fetch all listings from DB
-    res.render("listings/index.ejs",{allListings}) // Render index.ejs with listings
+    res.render("listings/index",{allListings}) // Render index.ejs with listings
 });
 
 
 //  NEW route
 app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs"); // Show form to create new listing
+    res.render("listings/new"); // Show form to create new listing
 });
-
 
 //show route
 app.get("/listings/:id", async (req,res) => {
     let{id} = req.params // Extract id from params
    const listing = await Listing.findById(id) // Find listing by ID
-   res.render("listings/show.ejs", {listing}) // Show details page
+   res.render("listings/show", {listing}) // Show details page
 })
 
-//CREATE ROUTE- 
-// app.post("/listing", async (req, res) => {
-//  //  let {title,description, image , price, country , location } = req.body - in place of this we can write the listing in ejs file and pass the value as objext 
-//  let listing= req.body
-// console.log(listing);
-//  res.send("Listing received")
 
-// })
 
 // CREATE ROUTE
 app.post("/listing", async (req, res) => {
@@ -79,27 +72,12 @@ app.delete("/listing/:id", async (req, res) => {
 });
 
 
-// app.get("/testlisting", async  (req,res) =>  {
-//     let sampleListing = new Listing({
-//         title : "my new villa",
-//         description: "buy it",
-//         price:2000,
-//         location:"goa",
-//         country:"india"
-//     })
-
-//     await sampleListing.save()
-//     console.log("sample was saved")
-//     res.send("succesfully testing")
-    
-// } )
-
 
 //EDIT ROUTE.- 
 app.get("/listings/:id/edit",async(req,res) =>{
     let { id } = req.params
     const listing = await Listing.findById(id) // Fetch listing to edit
-   res.render("listings/edit.ejs", { listing }); // Render edit form
+   res.render("listings/edit", { listing }); // Render edit form
 })
 
 //Upadate route - 

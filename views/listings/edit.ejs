@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIRBNB</title>
-</head>
+<% layout("/layouts/boilerplate") %>
 <body>
   
   <h2>Edit your Listing</h2>
 
-  <form method="POST" action="/listing/<%= listing._id %>?_method=PUT">
+  <form method="POST" action="/listings/<%= listing._id %>?_method=PUT">
 
     <input name="listing[title]" value="<%= listing.title %>" required>
     <br><br>
@@ -33,4 +27,4 @@
   </form>
 
 </body>
-</html>
+

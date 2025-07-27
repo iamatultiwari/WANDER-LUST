@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIRBNB</title>
-</head>
+<% layout("/layouts/boilerplate") %>
 <body>
 
   <h2>Create New Listing</h2>
 
-  <form action="/listing" method="POST">
+<form action="/listings" method="POST">
 
     <input name="listing[title]" placeholder="Enter title" required>
     <br><br>
@@ -33,5 +27,5 @@
   </form>
 
 </body>
-</html>
+
 
