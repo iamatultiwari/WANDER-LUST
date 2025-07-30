@@ -1,5 +1,12 @@
 body {
     font-family: "plus jakarta sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    
+}
+.container{
+    flex: 1;
 }
  .navbar{
     height: 5rem;
@@ -83,4 +90,10 @@ body {
     opacity: 0.2;
     background-color: white;
 
+}                                                                                                                                                                                                                                               
+/* 
+ for -new.ejs page */
+button.add-btn {
+background-color: #fe424d;
+border: none !important;
 }
