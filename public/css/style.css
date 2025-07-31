@@ -90,10 +90,22 @@ body {
     opacity: 0.2;
     background-color: white;
 
-}                                                                                                                                                                                                                                               
+}                                                                                                                                                                                                                                              
 /* 
  for -new.ejs page */
 button.add-btn {
 background-color: #fe424d;
 border: none !important;
+}
+
+/* show page */ 
+.show-image{
+    height: 30vh;
+}
+.btns{
+    display: flex;
+}
+.show-card{
+    padding-left: 0;
+    padding-right: 0;
 }
