@@ -1,47 +1,90 @@
-<% layout("/layouts/boilerplate") %>
+<% layout("/layouts/boilerplate") %>  <!-- Use the boilerplate layout for this page -->
+
 <div class="row">
-  <div class="col-8 offset-2">
+  <div class="col-8 offset-2">  <!-- Center the form with 8 columns width and offset -->
     <br>
 
     <h2>Create New Listing</h2>
-<form action="/listings" method="POST">
-    <div class="mb-3">
-    <label for="title" class="form-level">Title</label>
-     <textarea
-      name="listing[title]" placeholder="Enter title." required class="form-control" >
-     </textarea>
-  </div>
 
-  <div class="mb-3">
-      <label for="description" class="form-level">Description</label>
-    <input name="listing[description]" placeholder="Enter description" required type="text" class="form-control" >
-  </div>
-
-<div><label for="image" class="form-level">Image</label>
-<input name="listing[image]" placeholder="Enter image URL" type="text" class="form-control">
-</div>
-<div class="row">
-  <div class="mb-3 col-md-4">
-  <label for="price" class="form-level">Price</label>
-      <input name="listing[price]" placeholder="Enter price" type="number" required class="form-control">
-
-</div>
-<div class="mb-3 col-md-8">
-  <label for="country" class="form-level">Country</label>
-  <input name="listing[country]" placeholder="Enter country name" type="text" required class="form-control">
-</div>
-</div>
-
-
+    <!-- Form to create a new listing -->
+    <form action="/listings" method="POST" novalidate class="needs-validation ">
+      
+<!-- Title input using textarea -->
 <div class="mb-3">
-   <label for="location" class="form-level">Location</label>
-   <input name="listing[location]" placeholder="Enter location" type="text" required class="form-control">
+  <label for="title" class="form-level">Title</label>
+  <textarea 
+    name="listing[title]" 
+    placeholder="Enter title." 
+    required 
+    class="form-control"></textarea>
 </div>
-<br>
-<button class="btn btn-dark add-btn">Add</button>
-  </form>
+
+
+      <!-- Description input using text input -->
+      <div class="mb-3">
+        <label for="description" class="form-level">Description</label>
+        <input 
+          name="listing[description]" 
+          placeholder="Enter description" 
+          required 
+          type="text" 
+          class="form-control">
+      </div>
+
+      <!-- Image URL input -->
+      <div>
+        <label for="image" class="form-level">Image</label>
+        <input 
+          name="listing[image]" 
+          placeholder="Enter image URL" 
+          type="text" 
+          class="form-control">
+      </div>
+
+      <!-- Price and Country fields side by side using Bootstrap grid -->
+      <div class="row">
+        <!-- Price input (4 columns wide) -->
+        <div class="mb-3 col-md-4">
+          <label for="price" class="form-level">Price</label>
+          <input 
+            name="listing[price]" 
+            placeholder="Enter price" 
+            type="number" 
+            required 
+            class="form-control">
+        </div>
+
+        <!-- Country input (8 columns wide) -->
+        <div class="mb-3 col-md-8">
+          <label for="country" class="form-level">Country</label>
+          <input 
+            name="listing[country]" 
+            placeholder="Enter country name" 
+            type="text" 
+            required 
+            class="form-control">
+        </div>
+      </div>
+
+      <!-- Location input -->
+      <div class="mb-3">
+        <label for="location" class="form-level">Location</label>
+        <input 
+          name="listing[location]" 
+          placeholder="Enter location" 
+          type="text" 
+          required 
+          class="form-control">
+      </div>
+
+      <br>
+
+      <!-- Submit button -->
+      <button class="btn btn-dark add-btn">Add</button>
+    </form>
+  </div>
 </div>
-</div>
+
 
 
 
