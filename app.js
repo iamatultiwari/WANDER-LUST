@@ -8,6 +8,7 @@ const methodOverride = require("method-override") // To support PUT & DELETE in 
 const ejsMate = require("ejs-mate") // Layout support for EJS templates
 
 const MONGO_URL ="mongodb://127.0.0.1:27017/AIRBNB"; // MongoDB connection string
+const wrapAsync = require("./utils/WrapAsync.js")
 
 // Connect to MongoDB
 main().then(() =>{
@@ -56,16 +57,12 @@ app.get("/listings/:id", async (req,res) => {
 
 
 // CREATE ROUTE
-app.post("/listings", async (req, res,next) => {
-try {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    res.redirect("/listings");
-} catch (err) {
-  next(err);
+app.post("/listings", wrapAsync(async (req, res, next) => {
+  const newListing = new Listing(req.body.listing);
+  await newListing.save();
+  res.redirect("/listings");
+}));
 
-}
-});
 
 
 
