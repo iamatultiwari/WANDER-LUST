@@ -56,15 +56,21 @@ app.get("/listings/:id", async (req,res) => {
 
 
 // CREATE ROUTE
-app.post("/listing", async (req, res) => {
-  const newListing = new Listing(req.body.listing); // Create a new listing object
-  await newListing.save(); // Save it to DB
-  res.redirect("/listings"); // Redirect to listings page
+app.post("/listings", async (req, res,next) => {
+try {
+    const newListing = new Listing(req.body.listing);
+    await newListing.save();
+    res.redirect("/listings");
+} catch (err) {
+  next(err);
+
+}
 });
 
 
+
 // DELETE Route
-app.delete("/listing/:id", async (req, res) => {
+app.delete("/listings/:id", async (req, res) => {
     let { id } = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id); // Delete listing
     console.log(deletedListing); 
@@ -87,6 +93,9 @@ app.put("/listing/:id", async (req, res) => {
     res.redirect("/listings");  // Redirect after update
 });
 
+app.use((err,req,res,next) => {
+  res.send("Something went wrong.")
+})
 
 
 // Start server on port 8000

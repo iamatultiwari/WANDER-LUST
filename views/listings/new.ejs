@@ -13,11 +13,15 @@
 <div class="mb-3">
   <label for="title" class="form-level">Title</label>
   <textarea 
+    id="title"
     name="listing[title]" 
     placeholder="Enter title." 
     required 
     class="form-control"></textarea>
+  <div class="valid-feedback">Title looks good.</div>
+  <div class="invalid-feedback">Please enter a title.</div>
 </div>
+
 
 
       <!-- Description input using text input -->
@@ -29,6 +33,7 @@
           required 
           type="text" 
           class="form-control">
+          <div class="invalid-feedback">Please enter correct description.</div>
       </div>
 
       <!-- Image URL input -->
@@ -39,6 +44,7 @@
           placeholder="Enter image URL" 
           type="text" 
           class="form-control">
+          <div class="invalid-feedback">Please enter correct image url.</div>
       </div>
 
       <!-- Price and Country fields side by side using Bootstrap grid -->
@@ -49,9 +55,9 @@
           <input 
             name="listing[price]" 
             placeholder="Enter price" 
-            type="number" 
             required 
             class="form-control">
+            <div class="invalid-feedback">Price is invalid.</div>
         </div>
 
         <!-- Country input (8 columns wide) -->
@@ -63,6 +69,7 @@
             type="text" 
             required 
             class="form-control">
+            <div class="invalid-feedback">country name is invalid</div>
         </div>
       </div>
 
@@ -75,6 +82,7 @@
           type="text" 
           required 
           class="form-control">
+          <div class="invalid-feedback">Please enter valid location.</div>
       </div>
 
       <br>
