@@ -9,6 +9,7 @@ const ejsMate = require("ejs-mate") // Layout support for EJS templates
 
 const MONGO_URL ="mongodb://127.0.0.1:27017/AIRBNB"; // MongoDB connection string
 const wrapAsync = require("./utils/WrapAsync.js")
+const ExpressError= require("./utils/ExpressError.js")
 
 // Connect to MongoDB
 main().then(() =>{
@@ -36,10 +37,10 @@ app.get("/",(req,res) =>{
 
 
 //index root
-app.get("/listings", async (req,res) =>{
+app.get("/listings",wrapAsync( async (req,res) =>{
    const allListings =  await Listing.find({}) // Fetch all listings from DB
     res.render("listings/index",{allListings}) // Render index.ejs with listings
-});
+}));
 
 
 //  NEW route
@@ -48,16 +49,19 @@ app.get("/listings/new", (req, res) => {
 });
 
 //show route
-app.get("/listings/:id", async (req,res) => {
+app.get("/listings/:id",wrapAsync( async (req,res) => {
     let{id} = req.params // Extract id from params
    const listing = await Listing.findById(id) // Find listing by ID
    res.render("listings/show", {listing}) // Show details page
-})
+}))
 
 
 
 // CREATE ROUTE
 app.post("/listings", wrapAsync(async (req, res, next) => {
+    if(!req.body.listing) {
+        throw new ExpressError(400," send valid data for listings")
+    }
   const newListing = new Listing(req.body.listing);
   await newListing.save();
   res.redirect("/listings");
@@ -67,33 +71,46 @@ app.post("/listings", wrapAsync(async (req, res, next) => {
 
 
 // DELETE Route
-app.delete("/listings/:id", async (req, res) => {
+app.delete("/listings/:id",wrapAsync( async (req, res) => {
     let { id } = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id); // Delete listing
     console.log(deletedListing); 
     res.redirect("/listings"); // Redirect to index
-});
+}));
 
 
 
 //EDIT ROUTE.- 
-app.get("/listings/:id/edit",async(req,res) =>{
+app.get("/listings/:id/edit",wrapAsync(async(req,res) =>{
     let { id } = req.params
     const listing = await Listing.findById(id) // Fetch listing to edit
    res.render("listings/edit", { listing }); // Render edit form
-})
+}))
 
-//Upadate route - 
-app.put("/listing/:id", async (req, res) => {
+// Update route - 
+app.put("/listings/:id",wrapAsync( async (req, res) => {
+        if(!req.body.listing) {
+        throw new ExpressError(400," send valid data for listings")
+    }
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Update listing
     res.redirect("/listings");  // Redirect after update
+}));
+
+
+// for page not found route
+app.all(/.*/, (req, res, next) => {
+    next(new ExpressError(404, "page not found."));
 });
 
-app.use((err,req,res,next) => {
-  res.send("Something went wrong.")
-})
 
+app.use((err, req, res, next) => {
+    let { statusCode  = 500, message ="Something went wrong."} = err;
+    res.render("error.ejs", {message})
+   // res.status(statusCode).send(message);
+});
+
+    
 
 // Start server on port 8000
 app.listen(8000, () =>{
