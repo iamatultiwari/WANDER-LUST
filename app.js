@@ -10,7 +10,7 @@ const ejsMate = require("ejs-mate") // Layout support for EJS templates
 const MONGO_URL ="mongodb://127.0.0.1:27017/AIRBNB"; // MongoDB connection string
 const wrapAsync = require("./utils/WrapAsync.js")
 const ExpressError= require("./utils/ExpressError.js")
-const {listingSchema} = require("./schema.js")
+const {listingSchema,reviewSchema} = require("./schema.js")
 const Review = require("./models/review.js");
 
 
@@ -49,6 +49,17 @@ const validateListing = (req,res,next) =>  {
 
 }
 
+//validateReview
+const validateReview = (req,res,next) =>  {
+     let {error} = reviewSchema.validate(req.body)
+   if(error) {
+    let errMsg = error.details.map((el) => el.message).join(",")
+    throw new ExpressError(400, errMsg)
+   }else{
+    next()
+   }
+
+}
 //index root
 app.get("/listings",wrapAsync( async (req,res) =>{
    const allListings =  await Listing.find({}) // Fetch all listings from DB
@@ -64,7 +75,7 @@ app.get("/listings/new", (req, res) => {
 //show route
 app.get("/listings/:id",wrapAsync( async (req,res) => {
     let{id} = req.params // Extract id from params
-   const listing = await Listing.findById(id) // Find listing by ID
+   const listing = await Listing.findById(id).populate("reviews") // Find listing by ID
    res.render("listings/show", {listing}) // Show details page
 }))
 
@@ -110,7 +121,9 @@ app.put("/listings/:id",
     res.redirect("/listings");  // Redirect after update
 }));
 
-app.post("/listings/:id/reviews", async (req, res) => {
+//reviews
+//post route-
+app.post("/listings/:id/reviews",validateReview, wrapAsync(async(req, res) => {
    let listing = await Listing.findById(req.params.id);
    let newReview = new Review(req.body.review);
 
@@ -120,7 +133,7 @@ app.post("/listings/:id/reviews", async (req, res) => {
 
    console.log("new review saved");
    res.send("new review saved");
-});
+}));
 
 
 
