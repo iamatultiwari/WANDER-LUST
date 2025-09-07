@@ -5,7 +5,7 @@
 <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
   <% for (let listing of allListings) { %>
 <a href="/listings/<%= listing._id %>" class="listing-link">
-    <div class="card col">
+    <div class="card col listig-card">
    <img 
   src="<%= listing.image && typeof listing.image === 'string' ? listing.image : listing.image?.url  %>" 
   onerror="this.style.display='none'" 

@@ -31,3 +31,4 @@ const initDB = async () => {
 };
 
 initDB(); // Run the seed function
+
