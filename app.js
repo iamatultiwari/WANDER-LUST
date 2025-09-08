@@ -11,6 +11,8 @@ const MONGO_URL ="mongodb://127.0.0.1:27017/AIRBNB"; // MongoDB connection strin
 const wrapAsync = require("./utils/WrapAsync.js")
 const ExpressError= require("./utils/ExpressError.js")
 const {listingSchema,reviewSchema} = require("./schema.js")
+const session = require("express-session")
+const flash = require("connect-flash")
 
 
 const reviews = require("./routes/review.js");
@@ -36,10 +38,30 @@ app.use(methodOverride("_method")) // Use _method to support PUT/DELETE
 app.engine('ejs', ejsMate); // Use ejs-mate for layouts and partials
 app.use(express.static(path.join(__dirname, "/public")))
 
+const sessionOptions = {
+  secret: "mysupersecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires:Date.now() + 7*24*60*1000,
+    maxAge: 7*24*60*1000,
+    httpOnly: true,
+  } 
+};
 // Root route
 app.get("/",(req,res) =>{
     res.send("hii i am root");
 });
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req,res,next) => {
+  res.locals.success = req.flash("success"); 
+  res.locals.error = req.flash("error"); 
+  next();
+})
+
 
 
 app.use("/listings", listings);

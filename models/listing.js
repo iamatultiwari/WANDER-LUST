@@ -36,7 +36,7 @@ image: {
 listingSchema.post("findOneAndDelete", async (listing)  => {
   if (listing) {
     await Review.deleteMany({
-      _id : { $in: doc.reviews }
+      _id : { $in: listing.reviews }
     });
   }
 });

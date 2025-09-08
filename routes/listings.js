@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js"); // Import the listing model
-const { reviewSchema } = require("../schema.js")
+const { listingSchema, reviewSchema } = require("../schema.js")
 const wrapAsync = require("../utils/WrapAsync.js")
 const ExpressError= require("../utils/ExpressError.js")
 
@@ -21,9 +21,6 @@ const validateListing = (req,res,next) =>  {
 
 }
 
-
-
-
 //index route
 router.get("/",wrapAsync( async (req,res) =>{
    const allListings =  await Listing.find({}) // Fetch all listings from DB
@@ -37,9 +34,16 @@ router.get("/new", (req, res) => {
 });
 
 //show route
-router.get("/:id",wrapAsync( async (req,res) => {
+router.get(
+    "/:id",
+    wrapAsync( async (req,res) => {
     let{id} = req.params // Extract id from params
    const listing = await Listing.findById(id).populate("reviews") // Find listing by ID
+   if(!listing) {
+    req.flash("error","Listig you requested for is not exits!")
+     return res.redirect("/listings")
+
+   }
    res.render("listings/show", {listing}) // Show details page
 }))
 
@@ -47,19 +51,11 @@ router.get("/:id",wrapAsync( async (req,res) => {
 router.post("/", 
     validateListing,
     wrapAsync(async (req, res, next) => {
-
   const newListing = new Listing(req.body.listing);
-  
   await newListing.save();
+  req.flash("success","New Listing Created.!")
   res.redirect("/listings");
 }));
-
-
-
-
-
-
-
 
 //EDIT ROUTE.- 
 router.get("/:id/edit",wrapAsync(async(req,res) =>{
@@ -74,8 +70,28 @@ router.put("/:id",
     wrapAsync( async (req, res) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }); // Update listing
+     req.flash("success"," Listing Upadated.!")
     res.redirect("/listings");  // Redirect after update
 }));
+
+// DELETE Listing Route
+router.delete("/:id", 
+  wrapAsync(async (req, res) => {
+    const { id } = req.params;
+
+    // This will delete the listing by ID
+    // Also triggers the post middleware in listingSchema 
+    // to delete all reviews related to this listing
+    await Listing.findByIdAndDelete(id);
+     req.flash("success"," Listing  is Deleted.!")
+
+
+    // Redirect back to listings page after deletion
+    res.redirect("/listings");
+  })
+);
+
+
 
 
 
