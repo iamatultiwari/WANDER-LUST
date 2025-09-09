@@ -15,9 +15,15 @@ const session = require("express-session")
 const flash = require("connect-flash")
 
 
-const reviews = require("./routes/review.js");
+const reviewRouter = require("./routes/review.js");
 
-const listings = require("./routes/listings.js");
+const listingsRouter = require("./routes/listings.js");
+const userRouter = require("./routes/user.js");
+
+const passport = require("passport")
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+
 
 
 // Connect to MongoDB
@@ -56,16 +62,35 @@ app.get("/",(req,res) =>{
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
 app.use((req,res,next) => {
   res.locals.success = req.flash("success"); 
   res.locals.error = req.flash("error"); 
   next();
 })
 
+// app.get("/demouser", async (req, res) => {
+//   let fakeUser = new User({
+//     email: "anand@gmail.com",
+//     username: "anand01"
+//   });
+//   let registeredUser = await User.register(fakeUser, "hello-world"); 
+//   res.send(registeredUser);
+// });
+
+app.use("/", userRouter);                   // handles /signup, /login, etc.
+app.use("/listings/:id/reviews", reviewRouter); // review routes before general listings routes
+app.use("/listings", listingsRouter);       // handles /listings and /listings/:id
 
 
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
 
 
 // for page not found route
@@ -75,7 +100,7 @@ app.all(/.*/, (req, res, next) => {
 
 
 app.use((err, req, res, next) => {
-    let { statusCode  = 500, message ="Something went wrong."} = err;
+    let { statusCode=500, message ="Something went wrong."} = err;
     res.status(statusCode).render("error.ejs", {message})
     //res.status(statusCode).send(message);
 });
