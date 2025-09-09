@@ -64,19 +64,8 @@ router.delete("/:id", wrapAsync(async (req, res) => {
 }));
 
 // // SHOW route - show details for a listing
-// // **IMPORTANT:** Place this last so it doesn't capture /new or /edit
-// router.get("/:id", wrapAsync(async (req, res) => {
-//     const { id } = req.params;
-//     const listing = await Listing.findById(id).populate("reviews");
-//     if (!listing) {
-//         req.flash("error", "Listing you requested does not exist!");
-//         return res.redirect("/listings");
-//     }
-//     res.render("listings/show", { listing });
-// }));
 
-
-
+// **IMPORTANT:** Place this last so it doesn't capture /new or /edit
 router.get("/:id", wrapAsync(async (req, res) => {
     const { id } = req.params;
 
@@ -90,7 +79,11 @@ router.get("/:id", wrapAsync(async (req, res) => {
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings");
     }
+
     res.render("listings/show", { listing });
 }));
+
+
+
 
 module.exports = router;

@@ -3,9 +3,14 @@ const router = express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/WrapAsync.js");
 // GET signup form
+// router.get("/signup", (req, res) => {
+//     res.render("users/signup"); // no .ejs
+// });
 router.get("/signup", (req, res) => {
-    res.render("users/signup"); // no .ejs
+    console.log("🔥 GET /signup route hit!");
+    res.render("users/signup");
 });
+
 
 // POST signup
 router.post("/signup", wrapAsync(async (req, res) => {
@@ -15,7 +20,8 @@ router.post("/signup", wrapAsync(async (req, res) => {
         const registeredUser = await User.register(newUser, password);
         console.log(registeredUser);
         req.flash("success", "Welcome to wanderlust");
-        res.redirect("/listings");
+        // res.redirect("/listings");
+        res.redirect("/"); 
     } catch (e) {
         req.flash("error", e.message);
         res.redirect("/signup");
