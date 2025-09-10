@@ -40,11 +40,22 @@ router.post("/login",
                 // Flash a success message after login
                 req.flash("success", "Welcome back to wanderlust!");
                 // Redirect to home page after login
-                res.redirect("/"); 
+                // res.redirect("/"); 
                 // res.send("Welcome to wanderlust! u are logged in")
                 // res.flash("success", "welcome back to wanderlust!")
                  res.redirect("/listings")
 });
+
+router.get("/logout",(req,res) => {
+    req.logout((err) => {
+        if(err) {
+         return   next(err)
+        }
+        req.flash("success","you are logged out!")
+        res.redirect("/listings")
+        
+    })
+})
 
 
 
