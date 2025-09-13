@@ -26,6 +26,11 @@ async function main() {
 // Seed function to initialize database with default data
 const initDB = async () => {
   await Listing.deleteMany({});         // Delete all existing listings
+ initdata.data = initdata.data.map(obj => ({
+  ...obj,
+  owner: "68bee343e4280617d916b684"
+}));
+
   await Listing.insertMany(initdata.data); // Insert new seed listings
   console.log("data was initialized");  // Log success
 };
