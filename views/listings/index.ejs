@@ -7,12 +7,13 @@
 <a href="/listings/<%= listing._id %>" class="listing-link">
     <div class="card col listig-card">
    <img 
-  src="<%= listing.image && typeof listing.image === 'string' ? listing.image : listing.image?.url  %>" 
+  src="<%= listing.image.url %>" 
   onerror="this.style.display='none'" 
   class="card-img-top" 
   style="height:20rem ;"
   alt="Listing image" 
 />
+
 <div class="card-img-overlay">@atul</div>
       <div class="card-body">
         <p class="card-text">

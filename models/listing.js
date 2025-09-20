@@ -17,11 +17,6 @@ image: {
   filename: String,
   url: String
 
-  //  default:"https://images.unsplash.com/photo-1663841365331-f8eb24e88e26?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHZpbGxhJTIwYmFsYmlhbmVsbG98ZW58MHx8MHx8fDA=",
-  //  set: (v) =>
-  //    v === ""
- //       ? "https://images.unsplash.com/photo-1663841365331-f8eb24e88e26?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHZpbGxhJTIwYmFsYmlhbmVsbG98ZW58MHx8MHx8fDA="
-  //      : v
    },
   price: Number,
   location: String,

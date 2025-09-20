@@ -1,3 +1,12 @@
+if(process.env.NODE_ENV != "production") {
+  require('dotenv').config()
+
+}
+
+
+console.log(process.env) 
+
+
 const express =  require ("express"); // Import express
 const app = express();
 const mongoose = require("mongoose"); // Import mongoose for MongoDB
