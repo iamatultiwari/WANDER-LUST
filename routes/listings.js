@@ -17,8 +17,9 @@ router
   .get(wrapAsync(listingController.index)) // CREATE route - add new listing
   .post(
     isLoggedIn,
-   // validateListing,
-    upload.single('listing[image]'),
+     upload.single('listing[image]'),
+    validateListing,
+   
     wrapAsync(listingController.createListings)
   );
 
@@ -34,6 +35,7 @@ router
   .put(
     isLoggedIn,
     isOwner,
+     upload.single('listing[image]'),
     validateListing,
     wrapAsync(listingController.upadateListing)
   )
