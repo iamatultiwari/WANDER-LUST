@@ -23,6 +23,9 @@ const {listingSchema,reviewSchema} = require("./schema.js")
 const session = require("express-session")
 const flash = require("connect-flash")
 
+const paymentRoutes = require("./routes/payment");
+app.use("/", paymentRoutes);
+
 
 const reviewRouter = require("./routes/review.js");
 
