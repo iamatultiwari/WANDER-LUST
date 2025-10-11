@@ -109,3 +109,35 @@ border: none !important;
     padding-left: 0;
     padding-right: 0;
 }
+
+/* #map {
+    /height: 400px;
+    width: 80vw; /* use viewport width instead of height 
+} */ 
+ /* #map {
+  height: 400px;
+  width: 100%;
+} */
+
+
+
+
+
+
+/* Card hover effect */
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+
+/* Reviews cards */
+.card-body h6 {
+  font-weight: 600;
+}
+
+/* Stripe button larger & centered */
+form button.btn-success {
+  font-size: 1.1rem;
+  border-radius: 0.5rem;
+}
